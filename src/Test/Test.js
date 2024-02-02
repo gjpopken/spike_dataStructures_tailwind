@@ -10,20 +10,32 @@ const rooms = {
     '2.2': { description: "This is Swedish room.", isOpen: 1 },
 }
 
-let history = []
+let history = ['0.0']
 
-let userLocation = '0.0'
+
 
 const move = (dir) => {
-    let coords = userLocation.split('.')
+    let coords = history[history.length - 1].split('.')
     console.log(coords);
     switch (dir) {
         case 'up':
-            coords.splice(1, 1, coords[1] - 1)
-            
+            coords.splice(1, 1, +coords[1] - 1)
             console.log(coords.join('.'));
             if (Object.hasOwn(rooms, coords.join('.'))) {
                 console.log('Has Property');
+                history.push(coords.join('.'))
+                console.log('history:', history);
+            } else {
+                console.log('Doesn\'t have property');
+            }
+            break
+        case 'down':
+            coords.splice(1, 1, +coords[1] + 1)
+            console.log(coords.join('.'));
+            if (Object.hasOwn(rooms, coords.join('.'))) {
+                console.log('Has Property');
+                history.push(coords.join('.'))
+                console.log('history:', history);
             } else {
                 console.log('Doesn\'t have property');
             }
@@ -32,3 +44,5 @@ const move = (dir) => {
 }
 
 move('up')
+move('down')
+move('down')
