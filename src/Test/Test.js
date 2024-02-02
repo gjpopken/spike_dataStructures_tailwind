@@ -1,6 +1,6 @@
 const rooms = {
     '0.0': { description: "This is red room.", isOpen: 1 },
-    '0.1': { description: "This is green room.", isOpen: 1 },
+    '0.1': { description: "This is green room.", isOpen: 0 },
     '0.2': { description: "This is blue room.", isOpen: 1 },
     '1.0': { description: "This is horse room.", isOpen: 1 },
     '1.1': { description: "This is cow room.", isOpen: 1 },
@@ -20,29 +20,41 @@ const move = (dir) => {
     switch (dir) {
         case 'up':
             coords.splice(1, 1, +coords[1] - 1)
-            console.log(coords.join('.'));
-            if (Object.hasOwn(rooms, coords.join('.'))) {
-                console.log('Has Property');
+            if (checkValidRoom(coords.join('.'))) {
+                if (rooms[coords.join('.')].isOpen) {
+                    console.log('This room is open.');
+                } else {
+                    console.log('This room is closed.');
+                }
                 history.push(coords.join('.'))
                 console.log('history:', history);
-            } else {
-                console.log('Doesn\'t have property');
             }
+
             break
         case 'down':
             coords.splice(1, 1, +coords[1] + 1)
-            console.log(coords.join('.'));
-            if (Object.hasOwn(rooms, coords.join('.'))) {
-                console.log('Has Property');
+            if (checkValidRoom(coords.join('.'))) {
+                if (rooms[coords.join('.')].isOpen) {
+                    console.log('This room is open');
+                } else {
+                    console.log('This room is closed.');
+                }
                 history.push(coords.join('.'))
                 console.log('history:', history);
-            } else {
-                console.log('Doesn\'t have property');
             }
             break
     }
 }
 
+function checkValidRoom(coord) {
+    if (Object.hasOwn(rooms, coord)) {
+        console.log('Has Property');
+        return true
+    }
+    return false
+}
+
 move('up')
 move('down')
 move('down')
+move('up')
