@@ -23,8 +23,9 @@ export const Game = () => {
     const handleClick = (event, cbFunction) => {
         event.preventDefault()
         const move = cbFunction()
+        console.log(move);
         setHistory(move.history)
-        console.log(move.room.description);
+        console.log('room description:', move.room.description);
     }
 
     return (
@@ -41,6 +42,3 @@ export const Game = () => {
         </div>
     )
 }
-
-// I need a way to access the updated location that is in the local store. 
-// I need the description off the current room, and potentially other properies.
