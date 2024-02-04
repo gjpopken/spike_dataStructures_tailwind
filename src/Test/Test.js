@@ -22,41 +22,50 @@ export const configMove = (confObj) => {
     /***
      * {
      * rooms // the Object with all the room information
-     * histoy // array with the players history and current location
+     * history // array with the players history and current location
      * }
      */
     const move = (dir) => {
-        let coords = confObj.history[confObj.history.length - 1].split('.')
+        const coords = confObj.history[confObj.history.length - 1].split('.')
+        let attemptedCoords;
         console.log(coords);
         switch (dir) {
             case 'up':
-                coords.splice(1, 1, +coords[1] - 1)
-                if (checkValidRoom(coords.join('.'))) {
-                    if (confObj.rooms[coords.join('.')].isOpen) {
+                attemptedCoords = coords.toSpliced(1, 1, +coords[1] - 1).join('.')
+                if (checkValidRoom(attemptedCoords)) {
+                    if (confObj.rooms[attemptedCoords].isOpen) {
                         console.log('This room is open.');
                     } else {
                         console.log('This room is closed.');
                     }
-                    // history.push(coords.join('.'))
-                    return [...confObj.history, coords.join('.')]
-                    console.log('history:', [...confObj.history, coords.join('.')]);
+                    return [...confObj.history, attemptedCoords]
                 }
-
                 break
             case 'down':
-                coords.splice(1, 1, +coords[1] + 1)
-                if (checkValidRoom(coords.join('.'))) {
-                    if (confObj.rooms[coords.join('.')].isOpen) {
-                        console.log('This room is open');
+                attemptedCoords = coords.toSpliced(1, 1, +coords[1] + 1).join('.')
+                if (checkValidRoom(attemptedCoords)) {
+                    if (confObj.rooms[attemptedCoords].isOpen) {
+                        console.log('This room is open.');
                     } else {
                         console.log('This room is closed.');
                     }
-                    // history.push(coords.join('.'))
-                    return [...confObj.history, coords.join('.')]
-                    console.log('history:', [...confObj.history, coords.join('.')]);
+                    return [...confObj.history, attemptedCoords]
                 }
-                break
+                break 
         }
+    }
+    /**
+ * 
+ * @param {String} coord Takes a coordinate in the form of "1.1" 
+ * and checks if this room exists.
+ * @returns true if room exists else false
+ */
+    const checkValidRoom = (coord) => {
+        if (Object.hasOwn(confObj.rooms, coord)) {
+            // console.log('Has Property');
+            return true
+        }
+        return false
     }
     const moveDown = () => {
         return move('down')
@@ -69,19 +78,7 @@ export const configMove = (confObj) => {
 }
 
 
-/**
- * 
- * @param {String} coord Takes a coordinate in the form of "1.1" 
- * and checks if this room exists.
- * @returns true if room exists else false
- */
-function checkValidRoom(coord) {
-    if (Object.hasOwn(rooms, coord)) {
-        // console.log('Has Property');
-        return true
-    }
-    return false
-}
+
 
 
 
