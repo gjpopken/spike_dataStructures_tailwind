@@ -38,6 +38,7 @@ export const configMove = (confObj) => {
                     } else {
                         console.log('This room is closed.');
                     }
+                    console.log([...confObj.history, attemptedCoords]);
                     return [...confObj.history, attemptedCoords]
                 }
                 break
@@ -49,9 +50,34 @@ export const configMove = (confObj) => {
                     } else {
                         console.log('This room is closed.');
                     }
+                    console.log([...confObj.history, attemptedCoords]);
                     return [...confObj.history, attemptedCoords]
                 }
-                break 
+                break
+            case 'left':
+                attemptedCoords = coords.toSpliced(0, 1, +coords[0] - 1).join('.')
+                if (checkValidRoom(attemptedCoords)) {
+                    if (confObj.rooms[attemptedCoords].isOpen) {
+                        console.log('This room is open.');
+                    } else {
+                        console.log('This room is closed.');
+                    }
+                    console.log([...confObj.history, attemptedCoords]);
+                    return [...confObj.history, attemptedCoords]
+                }
+                break
+            case 'right':
+                attemptedCoords = coords.toSpliced(0, 1, +coords[0] + 1).join('.')
+                if (checkValidRoom(attemptedCoords)) {
+                    if (confObj.rooms[attemptedCoords].isOpen) {
+                        console.log('This room is open.');
+                    } else {
+                        console.log('This room is closed.');
+                    }
+                    console.log([...confObj.history, attemptedCoords]);
+                    return [...confObj.history, attemptedCoords]
+                }
+                break
         }
     }
     /**
@@ -68,13 +94,36 @@ export const configMove = (confObj) => {
         return false
     }
     const moveDown = () => {
-        return move('down')
+        const history = move('down')
+        return {
+            history: history,
+            room: confObj.rooms[history[history.length - 1]],
+        }
     }
     const moveUp = () => {
-        return move('up')
+        const history = move('up')
+        return {
+            history: history,
+            room: confObj.rooms[history[history.length - 1]],
+        }
     }
 
-    return { moveDown, moveUp }
+    const moveLeft = () => {
+        const history = move('left')
+        return {
+            history: history,
+            room: confObj.rooms[history[history.length - 1]],
+        }
+    }
+    const moveRight = () => {
+        const history = move('right')
+        return {
+            history: history,
+            room: confObj.rooms[history[history.length - 1]],
+        }
+    }
+
+    return { moveDown, moveUp, moveLeft, moveRight }
 }
 
 
