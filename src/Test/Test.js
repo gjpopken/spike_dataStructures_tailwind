@@ -13,26 +13,26 @@
 
 // let history = ['0.0']
 
+// TODO move() and the move<direction>() functions should be combined
+
+/**
+ * 
+ * @param {rooms, history} confObj Rooms is an object with coordinates as keys, and all the information of rooms as keys. History is an array of coordinates
+ * @returns an object with all to move functions (move left, right, up, and down)
+ */
 export const configMove = (confObj) => {
-    /***
-     * {
-     * rooms // the Object with all the room information
-     * history // array with the players history and current location
-     * }
+    /**
+     * The move function returns a new history array with the results of an attempted move in any direction.
+     * @param {String} dir takes a direction, 'up', 'down', 'left', 'right'
+     * @returns an object with an updated history array, isValid indicating if the move was valid.
      */
     const move = (dir) => {
         const coords = confObj.history[confObj.history.length - 1].split('.')
         let attemptedCoords;
-        // console.log(coords);
         switch (dir) {
             case 'up':
                 attemptedCoords = coords.toSpliced(1, 1, +coords[1] - 1).join('.')
                 if (checkValidRoom(attemptedCoords)) {
-                    // if (confObj.rooms[attemptedCoords].isOpen) {
-                    //     console.log('This room is open.');
-                    // } else {
-                    //     console.log('This room is closed.');
-                    // }
                     console.log([...confObj.history, attemptedCoords]);
                     return {
                         history: [...confObj.history, attemptedCoords],
@@ -44,15 +44,9 @@ export const configMove = (confObj) => {
                         isValid: 0
                     }
                 }
-                break
             case 'down':
                 attemptedCoords = coords.toSpliced(1, 1, +coords[1] + 1).join('.')
                 if (checkValidRoom(attemptedCoords)) {
-                    // if (confObj.rooms[attemptedCoords].isOpen) {
-                    //     console.log('This room is open.');
-                    // } else {
-                    //     console.log('This room is closed.');
-                    // }
                     console.log([...confObj.history, attemptedCoords]);
                     return {
                         history: [...confObj.history, attemptedCoords],
@@ -64,37 +58,23 @@ export const configMove = (confObj) => {
                         isValid: 0
                     }
                 }
-                break
             case 'left':
                 attemptedCoords = coords.toSpliced(0, 1, +coords[0] - 1).join('.')
                 if (checkValidRoom(attemptedCoords)) {
-                    // console.log('valid move');
-                    // if (confObj.rooms[attemptedCoords].isOpen) {
-                    //     console.log('This room is open.');
-                    // } else {
-                    //     console.log('This room is closed.');
-                    // }
                     console.log([...confObj.history, attemptedCoords]);
                     return {
                         history: [...confObj.history, attemptedCoords],
                         isValid: 1
                     }
                 } else {
-                    // console.log('invalid move');
                     return {
                         history: [...confObj.history, coords.join('.')],
                         isValid: 0
                     }
                 }
-                break
             case 'right':
                 attemptedCoords = coords.toSpliced(0, 1, +coords[0] + 1).join('.')
                 if (checkValidRoom(attemptedCoords)) {
-                    // if (confObj.rooms[attemptedCoords].isOpen) {
-                    //     console.log('This room is open.');
-                    // } else {
-                    //     console.log('This room is closed.');
-                    // }
                     console.log([...confObj.history, attemptedCoords]);
                     return {
                         history: [...confObj.history, attemptedCoords],
@@ -106,7 +86,6 @@ export const configMove = (confObj) => {
                         isValid: 0
                     }
                 }
-                break
         }
     }
     /**
@@ -117,15 +96,19 @@ export const configMove = (confObj) => {
  */
     const checkValidRoom = (coord) => {
         if (Object.hasOwn(confObj.rooms, coord)) {
-            // console.log('Has Property');
             return true
         }
         return false
     }
 
+    /**
+     * This function runs the move function above with argument 'down'. If the move was valid, 
+     * it returns the new history as well as the current room's information
+     * @returns an object with key history, which contains the updated history, with the player being at the last index. 
+     * The other key is the room object for the current room. 
+     */
     const moveDown = () => {
         const newMove = move('down')
-        // console.log('now in: ', confObj.rooms[history[history.length - 1]]);
         if (newMove.isValid) {
             return {
                 history: newMove.history,
@@ -134,10 +117,16 @@ export const configMove = (confObj) => {
         } else {
             return {
                 history: newMove.history,
-                room: {description: 'You have hit a wall.'}
+                room: { description: 'You have hit a wall.' }
             }
         }
     }
+    /**
+ * This function runs the move function above with argument 'up'. If the move was valid, 
+ * it returns the new history as well as the current room's information
+ * @returns an object with key history, which contains the updated history, with the player being at the last index. 
+ * The other key is the room object for the current room. 
+ */
     const moveUp = () => {
         const newMove = move('up')
         if (newMove.isValid) {
@@ -148,11 +137,16 @@ export const configMove = (confObj) => {
         } else {
             return {
                 history: newMove.history,
-                room: {description: 'You have hit a wall.'}
+                room: { description: 'You have hit a wall.' }
             }
         }
     }
-
+    /**
+     * This function runs the move function above with argument 'left'. If the move was valid, 
+     * it returns the new history as well as the current room's information
+     * @returns an object with key history, which contains the updated history, with the player being at the last index. 
+     * The other key is the room object for the current room. 
+     */
     const moveLeft = () => {
         const newMove = move('left')
         if (newMove.isValid) {
@@ -163,10 +157,16 @@ export const configMove = (confObj) => {
         } else {
             return {
                 history: newMove.history,
-                room: {description: 'You have hit a wall.'}
+                room: { description: 'You have hit a wall.' }
             }
         }
     }
+    /**
+ * This function runs the move function above with argument 'right'. If the move was valid, 
+ * it returns the new history as well as the current room's information
+ * @returns an object with key history, which contains the updated history, with the player being at the last index. 
+ * The other key is the room object for the current room. 
+ */
     const moveRight = () => {
         const newMove = move('right')
         if (newMove.isValid) {
@@ -177,10 +177,9 @@ export const configMove = (confObj) => {
         } else {
             return {
                 history: newMove.history,
-                room: {description: 'You have hit a wall.'}
+                room: { description: 'You have hit a wall.' }
             }
         }
     }
-
     return { moveDown, moveUp, moveLeft, moveRight }
 }

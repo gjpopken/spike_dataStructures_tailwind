@@ -14,6 +14,15 @@ export const Game = () => {
         '2.2': { description: "This is Swedish room.", isOpen: 1 },
     })
     const [history, setHistory] = useState(['1.0'])
+    // i need a piece of state the holds the player's history of moves and the results of those moves
+    // so that they can be rendered to the DOM sequentially. 
+
+    // an array that has a history object
+    // the object
+    const historyObj = {type: 'generated', description: 'You hit a dead end.'}
+    const saveData = [historyObj, {type: 'room', description: '2.2'}]
+    // extract all the room-type data for my configMove()
+    
 
     const { moveDown, moveUp, moveLeft, moveRight } = configMove({
         history: history,
