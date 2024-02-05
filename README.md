@@ -3,6 +3,8 @@
 ## Objective
 The object of this spike was to find a way to create a representation of rooms and corridors, and allow a player to move through them while returning a history of where they had been. 
 
+[Project Scope Doc](https://docs.google.com/document/d/1H3aU2Ac4qJl2WrDFyfbVJPN0hxjr6_j-OCeLDrptCuo/edit?usp=sharing)
+
 ## Findings
 ![/public/scrn.png](/public/scrn.png)
 
